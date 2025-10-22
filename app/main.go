@@ -37,7 +37,7 @@ func main() {
 	url := reqSlice[1]
 	url = strings.TrimPrefix(url, "/")
 	if len(url) == 0 {
-		_, err = conn.Write([]byte("HTTP/1.1 404 Not Found \r\n\r\n"))
+		_, err = conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 		if err != nil {
 			fmt.Println("Error writing response: ", err.Error())
 			os.Exit(1)
@@ -56,10 +56,11 @@ func main() {
 	switch endpoint {
 		case "echo":
 			len := len(url) - endpointIndex - 1
-			resp = fmt.Sprintf("HTTP/1.1 200 OK \r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n", len)
+			resp = fmt.Sprintf("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n", len)
 		default:
-			resp = "HTTP/1.1 404 Not Found \r\n\r\n"
+			resp = "HTTP/1.1 404 Not Found\r\n\r\n"
 	}
+	fmt.Println(resp)
 
 	_, err = conn.Write([]byte(resp))
 	if err != nil {
