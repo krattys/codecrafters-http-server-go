@@ -56,7 +56,7 @@ func main() {
 	switch endpoint {
 		case "echo":
 			len := len(url) - endpointIndex - 1
-			resp = fmt.Sprintf("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n", len)
+			resp = fmt.Sprintf("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len, url[endpointIndex+1:])
 		default:
 			resp = "HTTP/1.1 404 Not Found\r\n\r\n"
 	}
