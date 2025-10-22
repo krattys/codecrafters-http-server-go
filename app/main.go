@@ -60,7 +60,6 @@ func main() {
 		default:
 			resp = "HTTP/1.1 404 Not Found\r\n\r\n"
 	}
-	fmt.Println(resp)
 
 	_, err = conn.Write([]byte(resp))
 	if err != nil {
