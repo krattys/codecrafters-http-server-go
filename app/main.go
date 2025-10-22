@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -25,7 +27,19 @@ func main() {
 	}
 	defer conn.Close()
 
-	resp := "HTTP/1.1 200 OK\r\n\r\n"
+	reader := bufio.NewReader(conn)
+	reqLine, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Error reading request: ", err.Error())
+	}
+	reqLine = strings.TrimRight(reqLine, "\r\n")
+	reqSlice := strings.Split(reqLine, " ")
+	var statusCode string = "404 Not Found"
+	if reqSlice[1] == "/" {
+		statusCode = "200 OK"
+	}
+
+	resp := fmt.Sprintf("HTTP/1.1 %s\r\n\r\n", statusCode)
 	_, err = conn.Write([]byte(resp))
 	if err != nil {
 		fmt.Println("Error writing response: ", err.Error())
